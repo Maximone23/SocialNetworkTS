@@ -1,22 +1,17 @@
 import React from "react";
+import style from "./Profile.module.css"
+import MyPosts from "./MyPosts/MyPosts";
 
 function Profile() {
     return (
-        <div className="content">
+        <div className={style.content}>
             <div>
                 <img src="https://i.pinimg.com/originals/c6/17/8d/c6178d23d7fb64e625aa8686e84ee455.png" alt=""/>
             </div>
             <div>
                 ava + descr
             </div>
-            <div>
-                My posts
-                <div>
-                    New post
-                </div>
-                <div>Post 1</div>
-                <div>Post 2</div>
-            </div>
+            <MyPosts />
         </div>
     )
 }

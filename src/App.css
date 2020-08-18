@@ -1,6 +1,3 @@
-a {
-  color: #fff;
-}
 .app-wrapper {
   margin: 0 auto;
   display: grid;
@@ -11,22 +8,8 @@ a {
   grid-auto-columns: 2fr 10fr;
   grid-gap: 10px;
   width: 1200px;
-  color: #fff;
 }
-.header {
-  grid-area: h;
-  background-color: #2C3E50;
-}
-.header img {
-  width: 50px;
-}
-.nav {
-  grid-area: n;
-  background-color: #2C3E50;
-  text-align: center;
-}
-.content {
-  grid-area: c;
-  background-color: #EC7063;
-}
+
+
+
 

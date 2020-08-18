@@ -1,0 +1,12 @@
+.nav {
+    grid-area: n;
+    background-color: #2C3E50;
+    text-align: center;
+}
+.item {
+    color: #fff;
+    text-decoration: none;
+}
+.item.active {
+    color: goldenrod;
+}
