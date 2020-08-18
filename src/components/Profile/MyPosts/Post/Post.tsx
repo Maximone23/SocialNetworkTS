@@ -1,14 +1,15 @@
 import React from "react";
 import style from "./Post.module.css"
 import photo from "../../../../assets/image/user-photo.png"
+import {MessageType} from "../MyPosts"
 
-function Post() {
+function Post(props: MessageType) {
     return (
         <div className={style.item}>
             <img src={photo} alt=""/>
-            Post 1
+            {props.message}
             <div>
-                <span>like</span>
+                <span>like</span>{props.likesCount}
             </div>
         </div>
     )
