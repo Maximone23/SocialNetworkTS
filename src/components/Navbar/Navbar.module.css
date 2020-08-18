@@ -2,11 +2,12 @@
     grid-area: n;
     background-color: #2C3E50;
     text-align: center;
+    padding-top: 20px;
 }
-.item {
+.item a{
     color: #fff;
     text-decoration: none;
 }
-.item.active {
+.item a.activeLink {
     color: goldenrod;
 }
