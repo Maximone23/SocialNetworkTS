@@ -9,11 +9,11 @@ export type MessageType = {
 
 function MyPosts() {
     return (
-            <div>
-                My posts
+            <div className={style.postsBlock}>
+                <h3>My posts</h3>
                 <div>
-                    <textarea></textarea>
-                    <button>Add post</button>
+                    <div><textarea></textarea></div>
+                    <div><button>Add post</button></div>
                 </div>
                 <div className={style.posts}>
                     <Post message="Hi, how are u?" likesCount={23} />
