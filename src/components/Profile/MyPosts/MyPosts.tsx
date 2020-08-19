@@ -7,7 +7,10 @@ export type MessageType = {
     likesCount: number
 }
 
-function MyPosts() {
+function MyPosts(props: any) {
+
+
+    let postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount}  />);
     return (
             <div className={style.postsBlock}>
                 <h3>My posts</h3>
@@ -16,8 +19,7 @@ function MyPosts() {
                     <div><button>Add post</button></div>
                 </div>
                 <div className={style.posts}>
-                    <Post message="Hi, how are u?" likesCount={23} />
-                    <Post message="It`s my first post" likesCount={15} />
+                    {postsElements}
                 </div>
             </div>
     )
