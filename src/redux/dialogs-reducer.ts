@@ -9,18 +9,27 @@ let initialState = {
         {id: 4, name: 'Andrew'},
         {id: 5, name: 'Daria'},
         {id: 6, name: 'Irina'}
-    ],
+    ] as Array<DialogType>,
     messages: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How are u?'},
         {id: 3, message: 'Yo'},
         {id: 4, message: 'Yo'},
         {id: 5, message: 'Yo'}
-    ],
-    newMessageBody: ''
+    ] as Array<MessageType>,
+    newMessageBody: '' as string
 }
+type MessageType = {
+    id: number
+    message: string
+}
+type DialogType = {
+    id: number
+    name: string
+}
+type InitialStateType = typeof initialState
 
-const dialogsReducer = (state = initialState, action) => {
+const dialogsReducer = (state: InitialStateType = initialState, action: PostsActionTypes) => {
 
 
     switch (action.type) {
@@ -36,8 +45,18 @@ const dialogsReducer = (state = initialState, action) => {
             return state
     }
 }
+type sendMessageACActionType = {
+    type: typeof SEND_MESSAGE
+}
+type updateNewMessageBodyACActionType = {
+    type: typeof UPDATE_NEW_MESSAGE_BODY
+    body: string
+}
+type PostsActionTypes = sendMessageACActionType | updateNewMessageBodyACActionType
 
-export const sendMessageAC = () =>  ({type: SEND_MESSAGE })
-export const updateNewMessageBodyAC = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body })
+export const sendMessageAC = (): sendMessageACActionType =>  ({type: SEND_MESSAGE })
+export const updateNewMessageBodyAC = (body: string): updateNewMessageBodyACActionType => ({type: UPDATE_NEW_MESSAGE_BODY, body: body })
+
+
 
 export default dialogsReducer

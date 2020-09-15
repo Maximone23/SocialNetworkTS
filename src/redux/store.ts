@@ -1,35 +1,37 @@
-// type MessageType = {
-//     id: number
-//     message: string
-// }
-// type DialogsType = {
-//     id: number
-//     name: string
-// }
-// type PostType = {
-//     id: number
-//     message: string
-//     likesCount: number
-// }
-// type profilePageType = {
-//     dialogs: Array<PostType>
-//     newPostText: string
-// }
-// type dialogsPageType = {
-//     posts: Array<DialogsType>
-//     messages: Array<MessageType>
-// }
-// type SidebarType ={}
-// type RootStateType ={
-//     profilePage: profilePageType
-//     dialogsPage: dialogsPageType
-//     sidebar: SidebarType
-// }
-
-
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
+
+export type MessageType = {
+    id: number
+    message: string
+}
+export type DialogsType = {
+    id: number
+    name: string
+}
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type profilePageType = {
+    dialogs: Array<PostType>
+    newPostText: string
+}
+export type dialogsPageType = {
+    posts: Array<DialogsType>
+    messages: Array<MessageType>
+}
+export type SidebarType ={}
+export type RootStateType ={
+    profilePage: profilePageType
+    dialogsPage: dialogsPageType
+    sidebar: SidebarType
+}
+
+
+
 
 
 let store = {
@@ -67,10 +69,10 @@ let store = {
     _callSubscriber() {
 
     },
-    subscribe(observer) {
+    subscribe(observer: any) {
         this._callSubscriber = observer
     },
-    dispatch(action) {
+    dispatch(action: any) {
 
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)

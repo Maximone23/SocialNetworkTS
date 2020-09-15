@@ -5,11 +5,18 @@ let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are u?', likesCount: 23},
         {id: 2, message: 'It`s my first post', likesCount: 15}
-    ],
-    newPostText: 'static Text'
+    ] as Array<PostType>,
+    newPostText: 'static Text' as string
 }
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action) => {
+
+const profileReducer = (state: InitialStateType = initialState, action: PostsActionTypes) => {
 
 
     switch (action.type) {
@@ -31,7 +38,23 @@ const profileReducer = (state = initialState, action) => {
     }
 
 }
-export const addPostAC = () =>  ({type: ADD_POST })
-export const updateNewPostTextAC = (text: string) => ({type: UPDATE_NEW_POST_TEXT, newText: text })
+type PostsActionTypes = AddPostACActionType | UpdateNewPostTextACActionType
+
+type UpdateNewPostTextACActionType = {
+    type: typeof UPDATE_NEW_POST_TEXT
+    newText: string
+}
+type AddPostACActionType = {
+    type: typeof ADD_POST
+}
+
+
+export const addPost = (): AddPostACActionType => ({type: ADD_POST})
+
+export const updateNewPostText = (text: string): UpdateNewPostTextACActionType => ({
+    type: UPDATE_NEW_POST_TEXT,
+    newText: text
+})
+
 
 export default profileReducer

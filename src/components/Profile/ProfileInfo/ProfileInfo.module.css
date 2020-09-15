@@ -1,3 +1,7 @@
 .descrBlock {
     padding: 10px;
 }
+.headerImg {
+    max-height: 50vh;
+    width: 100%;
+}
