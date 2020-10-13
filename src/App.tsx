@@ -4,23 +4,20 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import {Route} from "react-router-dom";
-import {ReduxStoreType} from "./redux/redux-store";
-import {Dispatch} from "redux";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
-type PropsType = {
-    store: ReduxStoreType
-    dispatch: Dispatch
-}
 
-function App(props: PropsType) {
+
+function App() {
     return (
         <div className="app-wrapper">
             <Header/>
             <Navbar/>
             <div className="app-wrapper-content">
-                <Route path={"/dialogs"} render={() => <DialogsContainer store={props.store}/>}/>
-                <Route path={"/profile"} render={() => <Profile store={props.store}/>}/>
+                <Route path={"/dialogs"} render={() => <DialogsContainer />}/>
+                <Route path={"/profile"} render={() => <Profile />}/>
+                <Route path={"/users"} render={() => <UsersContainer />}/>
             </div>
         </div>
 

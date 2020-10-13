@@ -1,9 +1,10 @@
 import React, {ChangeEvent} from "react";
 import style from "./MyPosts.module.css"
-import Post, {PostsType} from "./Post/Post";
+import Post from "./Post/Post";
+import {PostType} from "../../../redux/profile-reducer";
 
 type MyPostsType = {
-    posts: Array<PostsType>
+    posts: Array<PostType>
     addPost: () => void
     updateNewPostText: (text: string) => void
     newPostText: string
@@ -14,10 +15,10 @@ function MyPosts(props: MyPostsType) {
     id={p.id} key={p.id}/>);
 
     let newPostElement = props.newPostText
-    const onAddPost = (): void => {
+    const onAddPost = () => {
         props.addPost();
     }
-    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.target.value
         props.updateNewPostText(text);
     }

@@ -1,44 +1,43 @@
+import {v1} from "uuid";
+
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
 let initialState = {
     posts: [
-        {id: 1, message: 'Hi, how are u?', likesCount: 23},
-        {id: 2, message: 'It`s my first post', likesCount: 15}
+        {id: v1(), message: 'Hi, how are u?', likesCount: 23},
+        {id: v1(), message: 'It`s my first post', likesCount: 15}
     ] as Array<PostType>,
     newPostText: 'static Text' as string
 }
 export type PostType = {
-    id: number
+    id: string
     message: string
     likesCount: number
 }
 export type InitialStateType = typeof initialState
 
 
-const profileReducer = (state: InitialStateType = initialState, action: PostsActionTypes) => {
+const profileReducer = (state: InitialStateType = initialState, action: ProfileActionTypes) => {
 
 
     switch (action.type) {
         case ADD_POST:
             let newPost = {
-                id: 5,
+                id: v1(),
                 message: state.newPostText,
                 likesCount: 0
             }
-            state.posts.push(newPost)
-            state.newPostText = ''
-            return state
+            return {...state, newPostText: '', posts: [...state.posts, newPost]}
         case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText
-            return state
+            return {...state, newPostText: action.newText}
         default:
             return state
 
     }
 
 }
-type PostsActionTypes = AddPostACActionType | UpdateNewPostTextACActionType
+type ProfileActionTypes = AddPostACActionType | UpdateNewPostTextACActionType
 
 type UpdateNewPostTextACActionType = {
     type: typeof UPDATE_NEW_POST_TEXT
@@ -49,9 +48,9 @@ type AddPostACActionType = {
 }
 
 
-export const addPost = (): AddPostACActionType => ({type: ADD_POST})
+export const addPostAC = (): AddPostACActionType => ({type: ADD_POST})
 
-export const updateNewPostText = (text: string): UpdateNewPostTextACActionType => ({
+export const updateNewPostTextAC = (text: string): UpdateNewPostTextACActionType => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
 })

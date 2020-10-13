@@ -1,30 +1,32 @@
+import {v1} from "uuid";
+
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY'
 const SEND_MESSAGE = 'SEND_MESSAGE'
 
 let initialState = {
     dialogs: [
-        {id: 1, name: 'Maxim'},
-        {id: 2, name: 'Dmitry'},
-        {id: 3, name: 'Elena'},
-        {id: 4, name: 'Andrew'},
-        {id: 5, name: 'Daria'},
-        {id: 6, name: 'Irina'}
+        {id: v1(), name: 'Maxim'},
+        {id: v1(), name: 'Dmitry'},
+        {id: v1(), name: 'Elena'},
+        {id: v1(), name: 'Andrew'},
+        {id: v1(), name: 'Daria'},
+        {id: v1(), name: 'Irina'}
     ] as Array<DialogType>,
     messages: [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'How are u?'},
-        {id: 3, message: 'Yo'},
-        {id: 4, message: 'Yo'},
-        {id: 5, message: 'Yo'}
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'How are u?'},
+        {id: v1(), message: 'Yo'},
+        {id: v1(), message: 'Yo'},
+        {id: v1(), message: 'Yo'}
     ] as Array<MessageType>,
     newMessageBody: '' as string
 }
-type MessageType = {
-    id: number
+export type MessageType = {
+    id: string
     message: string
 }
-type DialogType = {
-    id: number
+export type DialogType = {
+    id: string
     name: string
 }
 type InitialStateType = typeof initialState
@@ -34,13 +36,10 @@ const dialogsReducer = (state: InitialStateType = initialState, action: PostsAct
 
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.body
-            return state
+            return {...state, newMessageBody: action.body}
         case SEND_MESSAGE:
             let body = state.newMessageBody
-            state.newMessageBody = ''
-            state.messages.push({id: 6, message: body})
-            return state
+            return {...state, newMessageBody: '', messages: [...state.messages, {id: v1(), message: body}]}
         default:
             return state
     }

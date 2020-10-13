@@ -2,21 +2,16 @@ import React, { ChangeEvent } from "react";
 import style from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
+import {DialogType, MessageType} from "../../redux/dialogs-reducer";
 
-type DialogType = {
-    id: number
-    name: string
-}
-type MessageType = {
-    id: number
-    message: string
-}
+
+
 type DialogsType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newMessageChange: (body: string) => void
     newMessageBody: string
-    sendMessageAC: () => void
+    updateMessageChange: (body: string) => void
+    sendMessage: () => void
 }
 
 
@@ -24,16 +19,16 @@ type DialogsType = {
 function Dialogs(props: DialogsType) {
 
 
-    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElements = props.messages.map(m => <Message message={m.message} id={m.id}/>);
+    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id} key={d.id}/>);
+    let messagesElements = props.messages.map(m => <Message message={m.message} id={m.id} key={m.id}/>);
     let newMessageBodyValue = props.newMessageBody
 
     let onSendMessageClick = () => {
-        props.sendMessageAC()
+        props.sendMessage()
     }
     let onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let body = e.target.value
-        props.newMessageChange(body)
+        props.updateMessageChange(body)
     }
     return (
         <div className={style.dialogs}>
