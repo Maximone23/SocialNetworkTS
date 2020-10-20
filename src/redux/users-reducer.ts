@@ -1,60 +1,31 @@
-import {v1} from "uuid";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
+const SET_USERS_TOTAL_COUNT = 'SET-USERS-TOTAL-COUNT'
 
 
 export type UsersType = {
-    id: string
-    photoUrl: string
-    followed: boolean
-    fullName: string
+    id: number
+    name: string
     status: string
-    location: LocationUsersType
+    photos: UserPhotosType
+    followed: boolean
 }
-type LocationUsersType = {
-    city: string
-    country: string
+type UserPhotosType = {
+    small: string
+    large: string
 }
 
 
 
 let initialState = {
-    users: [
-        {
-            id: v1(),
-            photoUrl: 'https://yt3.ggpht.com/a/AATXAJyh_xFfA_5W5O-vndK8xvpAmmlIaPPKxecoEBym=s900-c-k-c0xffffffff-no-rj-mo',
-            followed: false,
-            fullName: 'Maxim',
-            status: 'student',
-            location: {city: 'St.Peterburg', country: 'Russia'}
-        },
-        {
-            id: v1(),
-            photoUrl: 'https://yt3.ggpht.com/a/AATXAJyh_xFfA_5W5O-vndK8xvpAmmlIaPPKxecoEBym=s900-c-k-c0xffffffff-no-rj-mo',
-            followed: false,
-            fullName: 'Dmitry',
-            status: 'student',
-            location: {city: 'Minsk', country: 'Belarus'}
-        },
-        {
-            id: v1(),
-            photoUrl: 'https://yt3.ggpht.com/a/AATXAJyh_xFfA_5W5O-vndK8xvpAmmlIaPPKxecoEBym=s900-c-k-c0xffffffff-no-rj-mo',
-            followed: false,
-            fullName: 'Natalia',
-            status: 'student',
-            location: {city: 'Tyumen', country: 'Russia'}
-        },
-        {
-            id: v1(),
-            photoUrl: 'https://yt3.ggpht.com/a/AATXAJyh_xFfA_5W5O-vndK8xvpAmmlIaPPKxecoEBym=s900-c-k-c0xffffffff-no-rj-mo',
-            followed: false,
-            fullName: 'Alena',
-            status: 'student',
-            location: {city: 'St.Peterburg', country: 'Russia'}
-        }
-    ] as Array<UsersType>
+    items: [] as Array<UsersType>,
+    totalCount: 0 as number,
+    pageSize: 15 as number,
+    currentPage: 1 as number,
+    error: '' as string
 }
 
 export type InitialStateType = typeof initialState
@@ -66,7 +37,7 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
     switch (action.type) {
         case FOLLOW:
             return {
-                ...state, users: state.users.map(u => {
+                ...state, items: state.items.map(u => {
                     if (u.id === action.id) {
                         return {...u, followed: true}
                     }
@@ -75,7 +46,7 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
             }
         case UNFOLLOW:
             return {
-                ...state, users: state.users.map(u => {
+                ...state, items: state.items.map(u => {
                     if (u.id === action.id) {
                         return {...u, followed: false}
                     }
@@ -83,7 +54,11 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
                 })
             }
         case SET_USERS:
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, items: action.items}
+        case SET_CURRENT_PAGE:
+            return {...state, currentPage: action.currentPage}
+        case SET_USERS_TOTAL_COUNT:
+            return {...state, totalCount: action.count}
         default:
             return state
     }
@@ -91,25 +66,35 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
 }
 
 
-type UsersPageActionTypes = followACActionType | unfollowACActionType | setUsersACActionType
+type UsersPageActionTypes = followACActionType | unfollowACActionType | setUsersACActionType | setCurrentPageACActionType | setUsersTotalCountACActionType
 
 type followACActionType = {
     type: typeof FOLLOW
-    id: string
+    id: number
 }
 type unfollowACActionType = {
     type: typeof UNFOLLOW
-    id: string
+    id: number
 }
 type setUsersACActionType = {
     type: typeof SET_USERS
-    users: Array<UsersType>
+    items: Array<UsersType>
+}
+type setCurrentPageACActionType = {
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+type setUsersTotalCountACActionType = {
+    type: typeof SET_USERS_TOTAL_COUNT
+    count: number
 }
 
 
-export const followAC = (userID: string) :followACActionType => ({type: FOLLOW, id: userID})
-export const unfollowAC = (userID: string) :unfollowACActionType => ({type: UNFOLLOW, id: userID})
-export const setUsersAC = (users: Array<UsersType>) :setUsersACActionType => ({type: SET_USERS, users})
+export const followAC = (userID: number) :followACActionType => ({type: FOLLOW, id: userID})
+export const unfollowAC = (userID: number) :unfollowACActionType => ({type: UNFOLLOW, id: userID})
+export const setUsersAC = (items: Array<UsersType>) :setUsersACActionType => ({type: SET_USERS, items})
+export const setCurrentPageAC = (currentPage: number) :setCurrentPageACActionType => ({type: SET_CURRENT_PAGE, currentPage})
+export const setUsersTotalCountAC = (count: number) :setUsersTotalCountACActionType => ({type: SET_USERS_TOTAL_COUNT, count})
 
 
 export default usersReducer

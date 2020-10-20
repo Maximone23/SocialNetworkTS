@@ -5,3 +5,27 @@
 .wrapper {
     display: flex;
 }
+.selectedPage {
+    font-weight: 700;
+}
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+
+}
+.pageNumber {
+    list-style-type: none;
+    padding: 15px;
+    border: solid 1px #fff;
+    border-radius: 5px;
+    background-color: #2C3E50;
+}
+.pageNumber a {
+    text-decoration: none;
+    color: #fff;
+    line-height: 16px;
+}
+.activePageNumber a {
+    font-weight: 700;
+    color: goldenrod;
+}
