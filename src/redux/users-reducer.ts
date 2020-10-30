@@ -1,9 +1,9 @@
-
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_USERS_TOTAL_COUNT = 'SET-USERS-TOTAL-COUNT'
+const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 
 
 export type UsersType = {
@@ -25,7 +25,8 @@ let initialState = {
     totalCount: 0 as number,
     pageSize: 15 as number,
     currentPage: 1 as number,
-    error: '' as string
+    error: '' as string,
+    isFetching: false as boolean
 }
 
 export type InitialStateType = typeof initialState
@@ -59,6 +60,8 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
             return {...state, currentPage: action.currentPage}
         case SET_USERS_TOTAL_COUNT:
             return {...state, totalCount: action.count}
+        case TOGGLE_IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
@@ -66,7 +69,12 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersPageA
 }
 
 
-type UsersPageActionTypes = followACActionType | unfollowACActionType | setUsersACActionType | setCurrentPageACActionType | setUsersTotalCountACActionType
+type UsersPageActionTypes = followACActionType |
+    unfollowACActionType |
+    setUsersACActionType |
+    setCurrentPageACActionType |
+    setUsersTotalCountACActionType |
+    toggleIsFetchingActionType
 
 type followACActionType = {
     type: typeof FOLLOW
@@ -88,6 +96,10 @@ type setUsersTotalCountACActionType = {
     type: typeof SET_USERS_TOTAL_COUNT
     count: number
 }
+type toggleIsFetchingActionType = {
+    type: typeof TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
 
 
 export const followAC = (userID: number) :followACActionType => ({type: FOLLOW, id: userID})
@@ -95,6 +107,8 @@ export const unfollowAC = (userID: number) :unfollowACActionType => ({type: UNFO
 export const setUsersAC = (items: Array<UsersType>) :setUsersACActionType => ({type: SET_USERS, items})
 export const setCurrentPageAC = (currentPage: number) :setCurrentPageACActionType => ({type: SET_CURRENT_PAGE, currentPage})
 export const setUsersTotalCountAC = (count: number) :setUsersTotalCountACActionType => ({type: SET_USERS_TOTAL_COUNT, count})
+export const toggleIsFetchingAC = (isFetching: boolean) :toggleIsFetchingActionType => ({type: TOGGLE_IS_FETCHING, isFetching})
+
 
 
 export default usersReducer
