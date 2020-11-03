@@ -42,7 +42,9 @@ export type UsersPropsType = MapStatePropsType & MapDispatchPropsType & setPageT
 class UsersContainer extends React.Component<any, any> {
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+            withCredentials: true
+        })
             .then((response: AxiosResponse) => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(response.data.items)
@@ -55,7 +57,9 @@ class UsersContainer extends React.Component<any, any> {
     setPage = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
+            withCredentials: true
+        })
             .then((response: AxiosResponse) => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(response.data.items)
@@ -65,14 +69,15 @@ class UsersContainer extends React.Component<any, any> {
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> :
-                <Users items={this.props.items}
+                <Users key={this.props.items.id}
+                       items={this.props.items}
                        totalCount={this.props.totalCount}
                        error={this.props.error}
                        pageSize={this.props.pageSize}
                        currentPage={this.props.currentPage}
                        isFetching={this.props.isFetching}
                        follow={this.props.follow}
-                       unfollow={this.props.follow}
+                       unfollow={this.props.unfollow}
                        setUsers={this.props.setUsers}
                        setCurrentPage={this.props.setCurrentPage}
                        setTotalUsersCount={this.props.setTotalUsersCount}
