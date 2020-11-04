@@ -14,11 +14,11 @@ function ProfileInfo(props: ProfileInfoProps) {
     return (
         <div>
             <div>
-                <img className={style.headerImg}  src="https://i.pinimg.com/originals/c6/17/8d/c6178d23d7fb64e625aa8686e84ee455.png" alt=""/>
+                <img className={style.headerImg}  src="https://i.pinimg.com/originals/c6/17/8d/c6178d23d7fb64e625aa8686e84ee455.png" alt="headerImg"/>
             </div>
             <div className={style.descrBlock}>
                 <div>{props.profile.fullName}</div>
-                <img src={props.profile.photos.large}/>
+                <img src={props.profile.photos.large} alt={'ProfilePhoto'}/>
                 <div>{props.profile.aboutMe}</div>
             </div>
         </div>

@@ -20,7 +20,7 @@ type MapDispatchPropsType = {
 
 export type HeaderPropsType = MapStatePropsType & MapDispatchPropsType
 
-class HeaderContainer extends React.Component<any, any> {
+class HeaderContainer extends React.Component<HeaderPropsType> {
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
             withCredentials: true
