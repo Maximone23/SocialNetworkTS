@@ -30,6 +30,7 @@ function Dialogs(props: DialogsType) {
         let body = e.target.value
         props.updateMessageChange(body)
     }
+
     return (
         <div className={style.dialogs}>
             <div className={style.dialogsItems}>

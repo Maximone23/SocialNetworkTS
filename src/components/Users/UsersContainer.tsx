@@ -8,6 +8,7 @@ import {
     UsersType
 } from "../../redux/users-reducer";
 import Preloader from "../Common/Preloader/Preloader";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MapStatePropsType = {
@@ -32,19 +33,8 @@ export type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
-        // this.props.toggleIsFetching(true)
-        //
-        // usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-        //     .then((response: AxiosResponse) => {
-        //         this.props.toggleIsFetching(false)
-        //         this.props.setUsers(response.data.items)
-        //         this.props.setTotalUsersCount(response.data.totalCount)
-        //
-        //     })
     }
-
 
     setPage = (pageNumber: number) => {
         this.props.getUsers(pageNumber, this.props.pageSize)
@@ -79,37 +69,10 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
         followingInProgress: state.usersPage.followingInProgress
     }
 }
-// let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-//     return {
-//         follow: (userID: number) => {
-//             dispatch(followAC(userID))
-//
-//         },
-//         unfollow: (userID: number) => {
-//             dispatch(unfollowAC(userID))
-//         },
-//         setUsers: (users: Array<UsersType>) => {
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (pageNumber: number) => {
-//             dispatch(setCurrentPageAC(pageNumber))
-//         },
-//         setTotalUsersCount: (totalCount: number) => {
-//             dispatch(setUsersTotalCountAC(totalCount))
-//         },
-//         toggleIsFetching: (isFetching: boolean) => {
-//             dispatch(toggleIsFetchingAC(isFetching))
-//         },
-//         toggleFollowingProgress: (isFetching: boolean, userId: number) => {
-//             dispatch(toggleFollowingProgressAC(isFetching, userId))
-//         },
-//         getUsers: (currentPage: number, pageSize: number) => {
-//             dispatch(getUsersThunkCreator(currentPage, pageSize))
-//         }
-//     }
-// }
+
+let withRedirect = WithAuthRedirect(UsersContainer)
 
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow, unfollow, setCurrentPage, toggleFollowingProgress,
     getUsers
-})(UsersContainer);
+})(withRedirect);

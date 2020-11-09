@@ -3,6 +3,7 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MapStatePropsType = {
@@ -38,6 +39,6 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 }
 
 
+let AuthRedirectComponent = WithAuthRedirect(Dialogs)
 
-
-export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps)(Dialogs);
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
