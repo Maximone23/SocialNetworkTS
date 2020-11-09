@@ -8,7 +8,7 @@ import {
     UsersType
 } from "../../redux/users-reducer";
 import Preloader from "../Common/Preloader/Preloader";
-import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MapStatePropsType = {
@@ -70,7 +70,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-let withRedirect = WithAuthRedirect(UsersContainer)
+let withRedirect = withAuthRedirect(UsersContainer)
 
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow, unfollow, setCurrentPage, toggleFollowingProgress,
