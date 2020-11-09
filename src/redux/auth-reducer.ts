@@ -1,3 +1,8 @@
+import {authAPI} from "../api/api";
+import {AxiosResponse} from "axios";
+import {AppStateType} from "./redux-store";
+import {ThunkAction} from "redux-thunk";
+
 const SET_USER_DATA = 'SET_USER_DATA'
 
 
@@ -27,7 +32,7 @@ let initialState: InitialStateType = {
 
 
 
-const authReducer = (state: InitialStateType = initialState, action: UsersPageActionTypes):InitialStateType => {
+const authReducer = (state: InitialStateType = initialState, action: ActionTypes):InitialStateType => {
 
 
     switch (action.type) {
@@ -46,9 +51,9 @@ const authReducer = (state: InitialStateType = initialState, action: UsersPageAc
 }
 
 
-type UsersPageActionTypes = setAuthUserDataACActionType
+type ActionTypes = setAuthUserDataActionType
 
-type setAuthUserDataACActionType = {
+type setAuthUserDataActionType = {
     type: typeof SET_USER_DATA
     data: DataSetUserType
 }
@@ -56,7 +61,19 @@ type setAuthUserDataACActionType = {
 
 
 
-export const setAuthUserDataAC = (userId: number, email: string, login: string):setAuthUserDataACActionType => ({type: SET_USER_DATA, data: {userId, email, login}})
+export const setAuthUserData = (userId: number, email: string, login: string): setAuthUserDataActionType => ({type: SET_USER_DATA, data: {userId, email, login}})
+export const getAuthUserData = (): ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes> => {
+    return async (dispatch) => {
+        await authAPI.me()
+            .then((response: AxiosResponse) => {
+                if (response.data.resultCode === 0) {
+                    let {id, email, login} = response.data.data
+                    dispatch(setAuthUserData(id, email, login))
+                }
+
+            })
+    }
+}
 
 
 

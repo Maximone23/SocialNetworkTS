@@ -1,11 +1,8 @@
 import React from "react"
 import Header from "./Header"
-import axios, {AxiosResponse} from "axios";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
-import {setAuthUserDataAC} from "../../redux/auth-reducer";
+import {getAuthUserData} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
-
 
 type MapStatePropsType = {
     userId: number | null
@@ -15,31 +12,21 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    setAuthUserData: (userId: number, email: string, login: string) => void
+    getAuthUserData: () => void
 }
 
-export type HeaderPropsType = MapStatePropsType & MapDispatchPropsType
+export type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
-class HeaderContainer extends React.Component<HeaderPropsType> {
+class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        })
-            .then((response: AxiosResponse) => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data
-                    this.props.setAuthUserData(id, email, login)
-                }
-
-            })
+        this.props.getAuthUserData()
     }
 
     render() {
         return <Header userId={this.props.userId}
                        email={this.props.email}
                        login={this.props.login}
-                       isAuth={this.props.isAuth}
-                       setAuthUserData={this.props.setAuthUserData}/>
+                       isAuth={this.props.isAuth}/>
     }
 }
 
@@ -52,13 +39,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
         isAuth: state.auth.isAuth
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-    return {
-        setAuthUserData: (userId: number, email: string, login: string) => {
-            dispatch(setAuthUserDataAC(userId, email, login))
-        }
-    }
-}
 
 
-export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType > (mapStateToProps, mapDispatchToProps)(HeaderContainer);
+
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType > (mapStateToProps, {getAuthUserData})(HeaderContainer);

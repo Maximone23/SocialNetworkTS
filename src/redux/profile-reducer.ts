@@ -1,4 +1,8 @@
 import {v1} from "uuid";
+import {usersAPI} from "../api/api";
+import {AxiosResponse} from "axios";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -58,13 +62,22 @@ type AddPostACActionType = {
 }
 
 
-export const addPostAC = (): AddPostACActionType => ({type: ADD_POST})
+export const addPost = (): AddPostACActionType => ({type: ADD_POST})
 
-export const updateNewPostTextAC = (text: string): UpdateNewPostTextACActionType => ({
+export const updateNewPostText = (text: string): UpdateNewPostTextACActionType => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
 })
-export const setUserProfileAC = (profile: any): setUserProfileACActionType => ({type: SET_USER_PROFILE, profile})
+export const setUserProfile = (profile: any): setUserProfileACActionType => ({type: SET_USER_PROFILE, profile})
+
+export const getUserProfile = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
+    return async(dispatch) => {
+        await usersAPI.getProfile(userId)
+            .then((response: AxiosResponse) => {
+                dispatch(setUserProfile(response.data))
+            })
+    }
+}
 
 
 export default profileReducer

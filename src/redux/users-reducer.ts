@@ -144,7 +144,7 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number): to
 })
 
 
-export const getUsers = (currentPage: number, pageSize: number): ThunkAction<void, AppStateType, unknown, UsersPageActionTypes> => {
+export const getUsers = (currentPage: number, pageSize: number): ThunkAction<Promise<void>, AppStateType, unknown, UsersPageActionTypes> => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         let data = await usersAPI.getUsers(currentPage, pageSize)
