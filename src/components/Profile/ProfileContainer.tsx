@@ -6,7 +6,6 @@ import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reduc
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 
 
