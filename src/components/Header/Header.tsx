@@ -7,6 +7,7 @@ type HeaderPropsType = {
     userId: number | null
     email: string | null
     isAuth: boolean
+    logout: () => void
 }
 
 function Header(props: HeaderPropsType) {
@@ -17,7 +18,7 @@ function Header(props: HeaderPropsType) {
                 alt="logo"/>
             <div className={style.loginBlock}>
                 { props.isAuth ? <div>
-                    <div>Login: {props.login}</div>
+                    <div>Login: {props.login} - <button onClick={props.logout}>Log Out</button></div>
                     <div>ID: {props.userId}</div>
                     <div>E-mail: {props.email}</div>
                 </div>
