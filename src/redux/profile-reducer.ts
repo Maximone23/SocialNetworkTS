@@ -1,11 +1,10 @@
-import {v1} from "uuid";
-import {profileAPI, usersAPI} from "../api/api";
-import {AxiosResponse} from "axios";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {v1} from "uuid"
+import {profileAPI, usersAPI} from "../api/api"
+import {AxiosResponse} from "axios"
+import {ThunkAction} from "redux-thunk"
+import {AppStateType} from "./redux-store"
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
 const SET_STATUS = 'SET-STATUS'
 
@@ -14,7 +13,6 @@ let initialState = {
         {id: v1(), message: 'Hi, how are u?', likesCount: 23},
         {id: v1(), message: 'It`s my first post', likesCount: 15}
     ] as Array<PostType>,
-    newPostText: 'static Text' as string,
     profile: null,
     status: '' as string
 }
@@ -33,12 +31,10 @@ const profileReducer = (state: InitialStateType = initialState, action: ProfileA
         case ADD_POST:
             let newPost = {
                 id: v1(),
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             }
-            return {...state, newPostText: '', posts: [...state.posts, newPost]}
-        case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostText: action.newText}
+            return {...state, posts: [newPost, ...state.posts]}
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
             case SET_STATUS:
@@ -50,14 +46,10 @@ const profileReducer = (state: InitialStateType = initialState, action: ProfileA
 
 }
 type ProfileActionTypes = AddPostActionType |
-    UpdateNewPostTextActionType |
     setUserProfileActionType |
     setStatusActionType
 
-type UpdateNewPostTextActionType = {
-    type: typeof UPDATE_NEW_POST_TEXT
-    newText: string
-}
+
 type setUserProfileActionType = {
     type: typeof SET_USER_PROFILE
     profile: any
@@ -68,15 +60,11 @@ type setStatusActionType = {
 }
 type AddPostActionType = {
     type: typeof ADD_POST
+    newPostText: string
 }
 
 
-export const addPost = (): AddPostActionType => ({type: ADD_POST})
-
-export const updateNewPostText = (text: string): UpdateNewPostTextActionType => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: text
-})
+export const addPost = (newPostText: string): AddPostActionType => ({type: ADD_POST, newPostText})
 export const setUserProfile = (profile: any): setUserProfileActionType => ({type: SET_USER_PROFILE, profile})
 export const setStatus = (status: any): setStatusActionType => ({type: SET_STATUS, status})
 
