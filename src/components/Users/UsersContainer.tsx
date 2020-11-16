@@ -76,7 +76,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 
-
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow, unfollow, setCurrentPage, toggleFollowingProgress,
     getUsersThunk: requestUsers
