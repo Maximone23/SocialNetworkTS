@@ -3,18 +3,24 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import Users from "./Users";
 import {
-    follow, getUsers,
+    follow, requestUsers,
     setCurrentPage, toggleFollowingProgress, unfollow,
     UsersType
 } from "../../redux/users-reducer";
 import Preloader from "../Common/Preloader/Preloader";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalCount,
+    getUsers
+} from "../../redux/users-selectors"
 
 
 type MapStatePropsType = {
     users: Array<UsersType>
     totalCount: number
-    error: string
     pageSize: number
     currentPage: number
     isFetching: boolean
@@ -26,18 +32,18 @@ type MapDispatchPropsType = {
     unfollow: (userID: number) => void
     setCurrentPage: (pageNumber: number) => void
     toggleFollowingProgress: (isFetching: boolean, userId: number) => void
-    getUsers: (currentPage: number, pageSize: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number) => void
 }
 
 export type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
 
     setPage = (pageNumber: number) => {
-        this.props.getUsers(pageNumber, this.props.pageSize)
+        this.props.getUsersThunk(pageNumber, this.props.pageSize)
     }
 
     render() {
@@ -60,13 +66,12 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        users: state.usersPage.items,
-        totalCount: state.usersPage.totalCount,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        error: state.usersPage.error,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        totalCount: getTotalCount(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
@@ -74,5 +79,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow, unfollow, setCurrentPage, toggleFollowingProgress,
-    getUsers
+    getUsersThunk: requestUsers
 })(UsersContainer);
