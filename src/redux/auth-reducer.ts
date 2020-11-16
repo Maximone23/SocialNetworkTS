@@ -2,6 +2,7 @@ import {authAPI} from "../api/api";
 import {AxiosResponse} from "axios";
 import {AppStateType} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
+import {FormAction, stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 
@@ -46,7 +47,8 @@ const authReducer = (state: InitialStateType = initialState, action: ActionTypes
 }
 
 
-type ActionTypes = setAuthUserDataActionType
+
+type ActionTypes = setAuthUserDataActionType | FormAction
 
 type setAuthUserDataActionType = {
     type: typeof SET_USER_DATA
@@ -73,10 +75,16 @@ export const getAuthUserData = (): ThunkAction<Promise<void>, AppStateType, unkn
 }
 export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes> => {
     return async (dispatch) => {
+
         await authAPI.login(email, password, rememberMe)
             .then((response: AxiosResponse) => {
                 if (response.data.resultCode === 0) {
                      dispatch(getAuthUserData())
+                } else {
+                    debugger
+                    let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+                    debugger
+                    dispatch(stopSubmit("login", {_error: message}))
                 }
 
             })

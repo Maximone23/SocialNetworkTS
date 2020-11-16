@@ -1,11 +1,12 @@
 import React from 'react'
 import {Field, InjectedFormProps, reduxForm} from "redux-form"
-import {Input} from "../Common/FormsControls/FormsControls";
-import {required} from "../../utils/validators/validators";
-import {login} from "../../redux/auth-reducer";
-import {connect} from "react-redux";
-import { Redirect } from 'react-router-dom';
-import {AppStateType} from "../../redux/redux-store";
+import {Input} from "../Common/FormsControls/FormsControls"
+import {required} from "../../utils/validators/validators"
+import {login} from "../../redux/auth-reducer"
+import {connect} from "react-redux"
+import { Redirect } from 'react-router-dom'
+import {AppStateType} from "../../redux/redux-store"
+import styles from "./../Common/FormsControls/FormsControls.module.css"
 
 type FormDataType = {
     email: string
@@ -33,6 +34,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <div>
                 <Field type={"checkbox"} component={Input} name={"checkbox"}/>remember me
             </div>
+                {props.error && <div className={styles.formSummaryError}>{props.error}</div>}
             <div>
                 <button>Login</button>
             </div>

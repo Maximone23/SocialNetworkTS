@@ -24,7 +24,7 @@ export type PostType = {
 export type InitialStateType = typeof initialState
 
 
-const profileReducer = (state: InitialStateType = initialState, action: ProfileActionTypes) => {
+const profileReducer = (state: InitialStateType = initialState, action: ProfileActionTypes): InitialStateType => {
 
 
     switch (action.type) {
@@ -68,7 +68,7 @@ export const addPost = (newPostText: string): AddPostActionType => ({type: ADD_P
 export const setUserProfile = (profile: any): setUserProfileActionType => ({type: SET_USER_PROFILE, profile})
 export const setStatus = (status: any): setStatusActionType => ({type: SET_STATUS, status})
 
-export const getUserProfile = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
+export const getUserProfile = (userId: number): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
     return async(dispatch) => {
         await usersAPI.getProfile(userId)
             .then((response: AxiosResponse) => {
@@ -76,7 +76,7 @@ export const getUserProfile = (userId: string): ThunkAction<Promise<void>, AppSt
             })
     }
 }
-export const getStatus = (userId: string): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
+export const getStatus = (userId: number): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
     return async(dispatch) => {
         await profileAPI.getStatus(userId)
             .then((response: AxiosResponse) => {
