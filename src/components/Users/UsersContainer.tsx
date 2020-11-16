@@ -12,7 +12,7 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MapStatePropsType = {
-    items: Array<UsersType>
+    users: Array<UsersType>
     totalCount: number
     error: string
     pageSize: number
@@ -43,7 +43,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> :
-                <Users items={this.props.items}
+                <Users users={this.props.users}
                        totalCount={this.props.totalCount}
                        pageSize={this.props.pageSize}
                        currentPage={this.props.currentPage}
@@ -60,7 +60,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        items: state.usersPage.items,
+        users: state.usersPage.items,
         totalCount: state.usersPage.totalCount,
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
@@ -70,9 +70,9 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-let withRedirect = withAuthRedirect(UsersContainer)
+
 
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow, unfollow, setCurrentPage, toggleFollowingProgress,
     getUsers
-})(withRedirect);
+})(UsersContainer);

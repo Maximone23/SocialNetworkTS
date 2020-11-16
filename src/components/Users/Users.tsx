@@ -7,7 +7,7 @@ import {UsersType} from "../../redux/users-reducer";
 
 type UsersPropsType = {
     setPage: (pageNumber: number) => void
-    items: Array<UsersType>
+    users: Array<UsersType>
     totalCount: number
     pageSize: number
     currentPage: number
@@ -31,7 +31,7 @@ function Users(props: UsersPropsType) {
                 activeClass={styles.activePageNumber}
             />
             {
-                props.items.map(u => <div className={styles.wrapper} key={u.id}>
+                props.users.map(u => <div className={styles.wrapper} key={u.id}>
                         <div>
                             <div>
                                 <NavLink to={'/profile/' + u.id}>
