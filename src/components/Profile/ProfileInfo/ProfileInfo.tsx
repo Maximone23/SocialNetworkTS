@@ -11,17 +11,17 @@ type ProfileInfoProps = {
     updateStatus: (status: string) => void
 }
 
-function ProfileInfo(props: ProfileInfoProps) {
-    if (!props.profile) {
+function ProfileInfo({profile, status, updateStatus}: ProfileInfoProps) {
+    if (!profile) {
         return <Preloader/>
     }
     return (
         <div>
             <div className={style.descrBlock}>
-                <div>{props.profile.fullName}</div>
-                <img src={props.profile.photos.large} alt={'ProfilePhoto'}/>
-                <div>{props.profile.aboutMe}</div>
-                <ProfileStatus1 status={props.status} updateStatus={props.updateStatus}/>
+                <div>{profile.fullName}</div>
+                <img src={profile.photos.large} alt={'ProfilePhoto'}/>
+                <div>{profile.aboutMe}</div>
+                <ProfileStatus1 status={status} updateStatus={updateStatus}/>
             </div>
         </div>
     )

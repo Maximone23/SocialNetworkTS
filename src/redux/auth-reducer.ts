@@ -1,13 +1,10 @@
-import {authAPI} from "../api/api";
-import {AxiosResponse} from "axios";
-import {AppStateType} from "./redux-store";
-import {ThunkAction} from "redux-thunk";
-import {FormAction, stopSubmit} from "redux-form";
-
-//Action
-const SET_USER_DATA = 'auth/SET-USER-DATA'
+import {authAPI} from '../api/api'
+import {AppStateType} from './redux-store'
+import {ThunkAction} from 'redux-thunk'
+import {FormAction, stopSubmit} from 'redux-form'
 
 
+//Types
 type DataSetUserType = {
     userId: number | null
     email: string | null
@@ -15,7 +12,16 @@ type DataSetUserType = {
     isAuth: boolean
 }
 export type InitialStateType = DataSetUserType
+type ActionTypes = setAuthUserDataActionType | FormAction
+type setAuthUserDataActionType = {
+    type: typeof SET_USER_DATA
+    payload: DataSetUserType
+}
 
+//Action
+const SET_USER_DATA = 'auth/SET-USER-DATA'
+
+//State
 let initialState = {
     userId: null,
     email: null,
@@ -24,28 +30,15 @@ let initialState = {
 }
 
 const authReducer = (state: InitialStateType = initialState, action: ActionTypes): InitialStateType => {
-
-
     switch (action.type) {
         case SET_USER_DATA:
             return {
                 ...state,
                 ...action.payload
             }
-
-
         default:
             return state
     }
-
-}
-
-
-type ActionTypes = setAuthUserDataActionType | FormAction
-
-type setAuthUserDataActionType = {
-    type: typeof SET_USER_DATA
-    payload: DataSetUserType
 }
 
 //ActionCreators
@@ -85,6 +78,5 @@ export const logout = (): ThunkAction<Promise<void>, AppStateType, unknown, Acti
         }
     }
 }
-
 
 export default authReducer

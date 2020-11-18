@@ -1,8 +1,25 @@
 import {v1} from "uuid";
 
+//Types
+export type MessageType = {
+    id: string
+    message: string
+}
+export type DialogType = {
+    id: string
+    name: string
+}
+type InitialStateType = typeof initialState
+type sendMessageACActionType = {
+    type: typeof SEND_MESSAGE
+    newMessageBody: string
+}
+type PostsActionTypes = sendMessageACActionType
 
+//Action
 const SEND_MESSAGE = 'SEND_MESSAGE'
 
+//State
 let initialState = {
     dialogs: [
         {id: v1(), name: 'Maxim'},
@@ -20,19 +37,8 @@ let initialState = {
         {id: v1(), message: 'Yo'}
     ] as Array<MessageType>
 }
-export type MessageType = {
-    id: string
-    message: string
-}
-export type DialogType = {
-    id: string
-    name: string
-}
-type InitialStateType = typeof initialState
 
 const dialogsReducer = (state: InitialStateType = initialState, action: PostsActionTypes) => {
-
-
     switch (action.type) {
         case SEND_MESSAGE:
             let body = action.newMessageBody
@@ -41,15 +47,8 @@ const dialogsReducer = (state: InitialStateType = initialState, action: PostsAct
             return state
     }
 }
-type sendMessageACActionType = {
-    type: typeof SEND_MESSAGE
-    newMessageBody: string
-}
 
-type PostsActionTypes = sendMessageACActionType
-
+//ActionCreators
 export const sendMessage = (newMessageBody: string): sendMessageACActionType =>  ({type: SEND_MESSAGE, newMessageBody })
-
-
 
 export default dialogsReducer

@@ -39,11 +39,13 @@ export type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsersThunk(currentPage, pageSize)
     }
 
     setPage = (pageNumber: number) => {
-        this.props.getUsersThunk(pageNumber, this.props.pageSize)
+        const {pageSize} = this.props
+        this.props.getUsersThunk(pageNumber, pageSize)
     }
 
     render() {
