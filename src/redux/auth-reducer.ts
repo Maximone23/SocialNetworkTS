@@ -11,7 +11,7 @@ type DataSetUserType = {
     login: string | null
     isAuth: boolean
 }
-export type InitialStateType = DataSetUserType
+export type InitialStateType = typeof initialState
 type ActionTypes = setAuthUserDataActionType | FormAction
 type setAuthUserDataActionType = {
     type: typeof SET_USER_DATA
@@ -26,7 +26,8 @@ let initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    isOwner: false
 }
 
 const authReducer = (state: InitialStateType = initialState, action: ActionTypes): InitialStateType => {

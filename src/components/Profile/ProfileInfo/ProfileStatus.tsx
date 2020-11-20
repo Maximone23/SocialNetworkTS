@@ -28,7 +28,7 @@ const ProfileStatus = React.memo((props: ProfileStatusPropsType) => {
             <div>
                 {!editMode &&
                     <div>
-                        <span onDoubleClick={activateEditMode}>{props.status || '-----'}</span>
+                        Status:  <span onDoubleClick={activateEditMode}>{props.status || '-----'}</span>
                     </div>
                 }
                 {editMode &&

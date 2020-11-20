@@ -1,5 +1,5 @@
 import {v1} from "uuid"
-import {profileAPI, usersAPI} from '../api/api'
+import {profileAPI} from '../api/api'
 import {ThunkAction} from 'redux-thunk'
 import {AppStateType} from './redux-store'
 
@@ -9,11 +9,17 @@ export type PostType = {
     message: string
     likesCount: number
 }
-export type InitialStateType = typeof initialState
-type ProfileActionTypes = AddPostActionType |
-    setUserProfileActionType |
-    setStatusActionType |
-    DeletePostActionType
+export type InitialStateType = {
+    posts:  Array<PostType>
+    profile: any
+    status: string
+}
+type ProfileActionTypes = AddPostActionType
+    | setUserProfileActionType
+    | setStatusActionType
+    | DeletePostActionType
+    | SavePhotoSuccessActionType
+
 
 type setUserProfileActionType = {
     type: typeof SET_USER_PROFILE
@@ -31,12 +37,17 @@ type DeletePostActionType = {
     type: typeof DELETE_POST
     postId: string
 }
+type SavePhotoSuccessActionType = {
+    type: typeof SAVE_PHOTO_SUCCESS
+    photos: any
+}
 
 //Action
 const ADD_POST = 'profile/ADD-POST'
 const DELETE_POST = 'profile/DELETE-POST'
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
 const SET_STATUS = 'profile/SET-STATUS'
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO_SUCCESS'
 
 //State
 const initialState = {
@@ -63,6 +74,9 @@ const profileReducer = (state: InitialStateType = initialState, action: ProfileA
             return {...state, profile: action.profile}
         case SET_STATUS:
             return {...state, status: action.status}
+        case SAVE_PHOTO_SUCCESS: {
+            return {...state, profile: {...state.profile, photos: action.photos}}
+        }
         default:
             return state
     }
@@ -73,6 +87,7 @@ export const addPost = (newPostText: string): AddPostActionType => ({type: ADD_P
 export const deletePost = (postId: string): DeletePostActionType => ({type: DELETE_POST, postId})
 export const setUserProfile = (profile: any): setUserProfileActionType => ({type: SET_USER_PROFILE, profile})
 export const setStatus = (status: any): setStatusActionType => ({type: SET_STATUS, status})
+export const savePhotoSuccess = (photos: any): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos})
 
 //ThunkCreators
 export const getUserProfile = (userId: number): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
@@ -90,9 +105,16 @@ export const getStatus = (userId: number): ThunkAction<Promise<void>, AppStateTy
 export const updateStatus = (status: any): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
     return async (dispatch) => {
         const response = await profileAPI.updateStatus(status)
-        debugger
         if (response.data.resultCode === 0) {
             dispatch(setStatus(status))
+        }
+    }
+}
+export const savePhoto = (file: any): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes> => {
+    return async (dispatch) => {
+        let response = await profileAPI.savePhoto(file)
+        if (response.data.resultCode === 0) {
+            dispatch(savePhotoSuccess(response.data.data.photos))
         }
     }
 }

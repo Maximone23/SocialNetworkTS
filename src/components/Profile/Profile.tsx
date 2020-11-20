@@ -6,14 +6,21 @@ type ProfilePropsType = {
     profile: any
     status: string
     updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (photo: any) => void
 }
 
-function Profile(props: ProfilePropsType) {
+function Profile({profile, updateStatus, isOwner, status, savePhoto}: ProfilePropsType) {
     return (
         <div>
-            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
-            <MyPostsContainer />
+            <ProfileInfo profile={profile}
+                         status={status}
+                         updateStatus={updateStatus}
+                         isOwner={isOwner}
+                         savePhoto={savePhoto}/>
+            <MyPostsContainer/>
         </div>
     )
 }
+
 export default Profile;
