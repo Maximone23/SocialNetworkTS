@@ -5,3 +5,11 @@
     max-width: 30%;
     max-height: 30%;
 }
+.contacts {
+    padding-left: 15px;
+}
+.formSummaryError {
+    border: solid red 1px;
+    color: red;
+    padding: 5px;
+}

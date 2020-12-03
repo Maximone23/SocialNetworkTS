@@ -2,6 +2,8 @@ import {v1} from "uuid"
 import {profileAPI} from '../api/api'
 import {ThunkAction} from 'redux-thunk'
 import {AppStateType} from './redux-store'
+import {ProfileType} from "../components/Profile/ProfileInfo/ProfileDataForm";
+import {FormAction, stopSubmit} from "redux-form";
 
 //Types
 export type PostType = {
@@ -115,6 +117,24 @@ export const savePhoto = (file: any): ThunkAction<Promise<void>, AppStateType, u
         let response = await profileAPI.savePhoto(file)
         if (response.data.resultCode === 0) {
             dispatch(savePhotoSuccess(response.data.data.photos))
+        }
+    }
+}
+export const saveProfile = (profile: ProfileType): ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionTypes | FormAction> => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+        let response = await profileAPI.saveProfile(profile)
+        if (response.data.resultCode === 0) {
+            if (userId != null) {
+                dispatch(getUserProfile(userId))
+                debugger
+            }
+            else {
+                throw new Error("userId can't be null")
+            }
+        } else {
+            dispatch(stopSubmit('edit-profile', {'contacts':{'facebook': response.data.messages[0]} }))
+            return Promise.reject(response.data.messages[0])
         }
     }
 }
