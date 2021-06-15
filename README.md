@@ -8,7 +8,8 @@ cd SocialNetworkTS
 <li>
 yarn start | nmp start
 =================
-  Login: maxim.one23@gmail.com
-  Password: demo123
+***
+Login: maxim.one23@gmail.com
+Password: demo123
 
 
