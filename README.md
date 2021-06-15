@@ -7,9 +7,7 @@ git clone https://github.com/Maximone23/SocialNetworkTS.git
 cd SocialNetworkTS
 <li>
 yarn start | nmp start
-=================
-***
-Login: maxim.one23@gmail.com
-Password: demo123
+<span>Login: maxim.one23@gmail.com</span>
+<span>Password: demo123</span>
 
 
